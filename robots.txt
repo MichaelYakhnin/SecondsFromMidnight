@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://michaelyakhnin.github.io/SecondsFromMidnight/sitemap.xml
