@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Seconds & Milliseconds From Midnight Calculator</title>
+
+<meta name="description"
+content="Free online calculator that converts seconds or milliseconds from midnight into 24-hour or 12-hour clock format. Also convert time back into seconds and milliseconds.">
+
+<meta name="keywords"
+content="seconds from midnight,milliseconds from midnight,time calculator,time converter,hh:mm:ss,milliseconds to time">
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+background:#f5f7fb;
+color:#222;
+line-height:1.5;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:30px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 5px 18px rgba(0,0,0,.08);
+margin-bottom:25px;
+}
+
+h1{
+margin-bottom:10px;
+}
+
+h2{
+margin-bottom:15px;
+}
+
+label{
+display:block;
+margin-top:18px;
+font-weight:bold;
+}
+
+input,select{
+width:100%;
+padding:12px;
+margin-top:6px;
+font-size:17px;
+border:1px solid #ccc;
+border-radius:8px;
+}
+
+button{
+margin-top:15px;
+padding:12px 20px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+.result{
+margin-top:20px;
+padding:18px;
+background:#eef6ff;
+border-radius:8px;
+font-size:18px;
+}
+
+.copyBtn{
+background:#16a34a;
+margin-right:10px;
+}
+
+.ad{
+height:120px;
+border:2px dashed #aaa;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-top:20px;
+border-radius:10px;
+background:#fafafa;
+font-size:20px;
+color:#777;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+td,th{
+padding:10px;
+border-bottom:1px solid #ddd;
+text-align:left;
+}
+
+footer{
+text-align:center;
+color:#666;
+margin:40px 0;
+}
+
+@media(max-width:600px){
+
+.container{
+padding:15px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Seconds & Milliseconds From Midnight Calculator</h1>
+
+<p>
+Convert seconds or milliseconds from midnight into standard 24-hour or 12-hour time.
+</p>
+
+<label>Value</label>
+
+<input id="value" type="number" placeholder="Example: 44049000">
+
+<label>Input Type</label>
+
+<select id="type">
+<option value="ms">Milliseconds</option>
+<option value="sec">Seconds</option>
+</select>
+
+<div class="result">
+
+<div><b>24 Hour:</b> <span id="time24">-</span></div>
+
+<div><b>12 Hour:</b> <span id="time12">-</span></div>
+
+<div><b>Hours:</b> <span id="hours">-</span></div>
+
+<div><b>Minutes:</b> <span id="minutes">-</span></div>
+
+<div><b>Seconds:</b> <span id="seconds">-</span></div>
+
+<div><b>Milliseconds:</b> <span id="milliseconds">-</span></div>
+
+</div>
+
+<button class="copyBtn" onclick="copy24()">Copy 24 Hour</button>
+
+<button onclick="copy12()">Copy 12 Hour</button>
+
+</div>
+
+<div class="card">
+
+<h2>Reverse Conversion</h2>
+
+<label>Time (HH:MM:SS)</label>
+
+<input id="timeInput" placeholder="12:14:09">
+
+<div class="result">
+
+<div><b>Seconds:</b> <span id="revSec">-</span></div>
+
+<div><b>Milliseconds:</b> <span id="revMs">-</span></div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="ad">
+
+Google AdSense Responsive Banner
+
+</div>
+
+<!-- Replace with your AdSense code -->
+
+</div>
+
+<div class="card">
+
+<h2>Examples</h2>
+
+<table>
+
+<tr><th>Input</th><th>Result</th></tr>
+
+<tr><td>44049 seconds</td><td>12:14:09</td></tr>
+
+<tr><td>44049000 ms</td><td>12:14:09</td></tr>
+
+<tr><td>86399 seconds</td><td>23:59:59</td></tr>
+
+<tr><td>0</td><td>00:00:00</td></tr>
+
+</table>
+
+</div>
+
+<div class="card">
+
+<h2>FAQ</h2>
+
+<h3>What are seconds from midnight?</h3>
+
+<p>
+Seconds from midnight represent the number of seconds elapsed since 00:00:00.
+</p>
+
+<br>
+
+<h3>How are milliseconds calculated?</h3>
+
+<p>
+Milliseconds are simply seconds multiplied by 1,000.
+</p>
+
+<br>
+
+<h3>Why use this calculator?</h3>
+
+<p>
+Developers often encounter timestamps stored as seconds or milliseconds from midnight in logs, PLC systems, embedded devices, SQL databases, industrial automation, telemetry systems, and APIs. This calculator makes converting those values quick and accurate.
+</p>
+
+</div>
+
+<footer>
+
+© 2026 Seconds From Midnight Calculator
+
+</footer>
+
+</div>
+
+<script>
+
+function pad(n){
+return String(n).padStart(2,'0');
+}
+
+function convert(){
+
+let value=parseInt(document.getElementById("value").value);
+
+if(isNaN(value)){
+return;
+}
+
+let totalSeconds;
+let ms;
+
+if(document.getElementById("type").value==="ms"){
+totalSeconds=Math.floor(value/1000);
+ms=value%1000;
+}
+else{
+totalSeconds=value;
+ms=0;
+}
+
+totalSeconds=((totalSeconds%86400)+86400)%86400;
+
+let h=Math.floor(totalSeconds/3600);
+
+let m=Math.floor((totalSeconds%3600)/60);
+
+let s=totalSeconds%60;
+
+let t24=`${pad(h)}:${pad(m)}:${pad(s)}`;
+
+let ap=h>=12?"PM":"AM";
+
+let h12=h%12;
+
+if(h12===0) h12=12;
+
+let t12=`${pad(h12)}:${pad(m)}:${pad(s)} ${ap}`;
+
+document.getElementById("time24").textContent=t24;
+document.getElementById("time12").textContent=t12;
+document.getElementById("hours").textContent=h;
+document.getElementById("minutes").textContent=m;
+document.getElementById("seconds").textContent=s;
+document.getElementById("milliseconds").textContent=ms;
+
+}
+
+function reverse(){
+
+let txt=document.getElementById("timeInput").value;
+
+let p=txt.split(":");
+
+if(p.length!==3) return;
+
+let h=parseInt(p[0]);
+
+let m=parseInt(p[1]);
+
+let s=parseInt(p[2]);
+
+let sec=h*3600+m*60+s;
+
+document.getElementById("revSec").textContent=sec;
+
+document.getElementById("revMs").textContent=sec*1000;
+
+}
+
+function copy24(){
+
+navigator.clipboard.writeText(document.getElementById("time24").textContent);
+
+}
+
+function copy12(){
+
+navigator.clipboard.writeText(document.getElementById("time12").textContent);
+
+}
+
+document.getElementById("value").addEventListener("input",convert);
+
+document.getElementById("type").addEventListener("change",convert);
+
+document.getElementById("timeInput").addEventListener("input",reverse);
+
+</script>
+
+</body>
+</html>
