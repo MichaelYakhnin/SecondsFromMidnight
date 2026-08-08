@@ -1,13 +1,17 @@
 # Seconds From Midnight Calculator
 
-A free, lightweight web tool that converts **seconds** or **milliseconds** from midnight into standard time formats, and vice versa.
+A free, lightweight web tool that converts **seconds** or **milliseconds** from midnight into standard time formats, and vice versa — plus coordinate converters between LLA, ECEF and local NED (WGS84).
 
 ## Features
 
-- Convert **seconds from midnight** → 24-hour and 12-hour clock time
+- **Seconds From Midnight tab**: seconds/milliseconds → 24-hour and 12-hour clock time, and back
 - Convert **milliseconds from midnight** → time breakdown (hours, minutes, seconds, milliseconds)
 - **Reverse conversion**: enter `HH:MM:SS` → get seconds and milliseconds from midnight
 - One-click **copy** of 24-hour or 12-hour result to clipboard
+- **Coordinate Calculators tab** (WGS84 ellipsoid):
+  - **LLA ↔ ECEF**: geodetic latitude/longitude/altitude ↔ Earth-Centered, Earth-Fixed XYZ
+  - **ECEF ↔ NED**: XYZ ↔ local North-East-Down meters relative to a reference point
+  - **ECEF ↔ NWU**: XYZ ↔ local North-West-Up meters relative to a reference point
 - Responsive layout — works on desktop and mobile
 - Zero dependencies — pure HTML, CSS, and vanilla JavaScript
 

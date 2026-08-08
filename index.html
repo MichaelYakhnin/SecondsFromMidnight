@@ -9,10 +9,10 @@
 <title>Seconds & Milliseconds From Midnight Calculator</title>
 
 <meta name="description"
-content="Free online calculator that converts seconds or milliseconds from midnight into 24-hour or 12-hour clock format. Also convert time back into seconds and milliseconds.">
+content="Free online calculators: convert seconds or milliseconds from midnight into 24-hour or 12-hour time, and convert coordinates between LLA, ECEF and local NED (WGS84 ellipsoid).">
 
 <meta name="keywords"
-content="seconds from midnight,milliseconds from midnight,time calculator,time converter,hh:mm:ss,milliseconds to time">
+content="seconds from midnight,milliseconds from midnight,time calculator,time converter,hh:mm:ss,milliseconds to time,LLA to ECEF,ECEF to LLA,ECEF to NED,NED to ECEF,ECEF to NWU,NWU to ECEF,coordinate converter,WGS84">
 <meta name="google-site-verification" content="Qpr5gPQXtWRROjE4H8Ao-3_YTXDN-vOLJP6oDTPn-go" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8156267484174587"
      crossorigin="anonymous"></script>
@@ -127,6 +127,39 @@ color:#666;
 margin:40px 0;
 }
 
+.tabs{
+display:flex;
+gap:8px;
+margin-bottom:25px;
+}
+
+.tab{
+flex:1;
+margin-top:0;
+padding:14px 10px;
+background:#e3e9f5;
+color:#1f2a44;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-size:16px;
+font-weight:bold;
+text-align:center;
+}
+
+.tab:hover{
+background:#d3dcf0;
+}
+
+.tab.active{
+background:#2563eb;
+color:white;
+}
+
+.tab-panel.hidden{
+display:none;
+}
+
 @media(max-width:600px){
 
 .container{
@@ -141,6 +174,13 @@ padding:15px;
 <body>
 
 <div class="container">
+
+<div class="tabs">
+<button class="tab active" data-tab="seconds">Seconds From Midnight</button>
+<button class="tab" data-tab="coordinates">Coordinate Calculators</button>
+</div>
+
+<div id="tab-seconds" class="tab-panel">
 
 <div class="card">
 
@@ -201,17 +241,7 @@ Convert seconds or milliseconds from midnight into standard 24-hour or 12-hour t
 
 </div>
 
-<div class="card">
-
-<div class="ad">
-
-Google AdSense Responsive Banner
-
-</div>
-
 <!-- Replace with your AdSense code -->
-
-</div>
 
 <div class="card">
 
@@ -258,6 +288,159 @@ Milliseconds are simply seconds multiplied by 1,000.
 <p>
 Developers often encounter timestamps stored as seconds or milliseconds from midnight in logs, PLC systems, embedded devices, SQL databases, industrial automation, telemetry systems, and APIs. This calculator makes converting those values quick and accurate.
 </p>
+
+</div>
+
+</div>
+
+<div id="tab-coordinates" class="tab-panel hidden">
+
+<div class="card">
+
+<h2>LLA ↔ ECEF Converter</h2>
+
+<p>
+Convert geodetic coordinates (Latitude, Longitude, Altitude) to ECEF (Earth-Centered, Earth-Fixed) Cartesian XYZ in meters, and back. Uses the WGS84 ellipsoid.
+</p>
+
+<label>Direction</label>
+
+<select id="llaDir">
+<option value="toEcef">LLA → ECEF</option>
+<option value="toLla">ECEF → LLA</option>
+</select>
+
+<label id="llaIn1Label">Latitude (degrees)</label>
+
+<input id="llaIn1" type="number" step="any" placeholder="Example: 32.0853">
+
+<label id="llaIn2Label">Longitude (degrees)</label>
+
+<input id="llaIn2" type="number" step="any" placeholder="Example: 34.7818">
+
+<label id="llaIn3Label">Altitude (meters)</label>
+
+<input id="llaIn3" type="number" step="any" placeholder="Example: 0">
+
+<div class="result">
+
+<div><b id="llaOut1Label">X:</b> <span id="llaOut1">-</span></div>
+
+<div><b id="llaOut2Label">Y:</b> <span id="llaOut2">-</span></div>
+
+<div><b id="llaOut3Label">Z:</b> <span id="llaOut3">-</span></div>
+
+</div>
+
+<button class="copyBtn" onclick="copyLlaResult()">Copy Result</button>
+
+</div>
+
+<div class="card">
+
+<h2>ECEF ↔ NED Converter</h2>
+
+<p>
+Convert ECEF Cartesian XYZ to local NED (North, East, Down) meters relative to a reference point, and back. Uses the WGS84 ellipsoid.
+</p>
+
+<label>Reference Latitude (degrees)</label>
+
+<input id="nedRefLat" type="number" step="any" placeholder="Example: 32.0853">
+
+<label>Reference Longitude (degrees)</label>
+
+<input id="nedRefLon" type="number" step="any" placeholder="Example: 34.7818">
+
+<label>Reference Altitude (meters)</label>
+
+<input id="nedRefAlt" type="number" step="any" placeholder="Example: 0">
+
+<label>Direction</label>
+
+<select id="nedDir">
+<option value="toNed">ECEF → NED</option>
+<option value="toEcef">NED → ECEF</option>
+</select>
+
+<label id="nedIn1Label">X (meters)</label>
+
+<input id="nedIn1" type="number" step="any" placeholder="Example: 4419600">
+
+<label id="nedIn2Label">Y (meters)</label>
+
+<input id="nedIn2" type="number" step="any" placeholder="Example: 3024900">
+
+<label id="nedIn3Label">Z (meters)</label>
+
+<input id="nedIn3" type="number" step="any" placeholder="Example: 3368200">
+
+<div class="result">
+
+<div><b id="nedOut1Label">North:</b> <span id="nedOut1">-</span></div>
+
+<div><b id="nedOut2Label">East:</b> <span id="nedOut2">-</span></div>
+
+<div><b id="nedOut3Label">Down:</b> <span id="nedOut3">-</span></div>
+
+</div>
+
+<button class="copyBtn" onclick="copyNedResult()">Copy Result</button>
+
+</div>
+
+<div class="card">
+
+<h2>ECEF ↔ NWU Converter</h2>
+
+<p>
+Convert ECEF Cartesian XYZ to local NWU (North, West, Up) meters relative to a reference point, and back. Uses the WGS84 ellipsoid.
+</p>
+
+<label>Reference Latitude (degrees)</label>
+
+<input id="nwuRefLat" type="number" step="any" placeholder="Example: 32.0853">
+
+<label>Reference Longitude (degrees)</label>
+
+<input id="nwuRefLon" type="number" step="any" placeholder="Example: 34.7818">
+
+<label>Reference Altitude (meters)</label>
+
+<input id="nwuRefAlt" type="number" step="any" placeholder="Example: 0">
+
+<label>Direction</label>
+
+<select id="nwuDir">
+<option value="toNwu">ECEF → NWU</option>
+<option value="toEcef">NWU → ECEF</option>
+</select>
+
+<label id="nwuIn1Label">X (meters)</label>
+
+<input id="nwuIn1" type="number" step="any" placeholder="Example: 4419600">
+
+<label id="nwuIn2Label">Y (meters)</label>
+
+<input id="nwuIn2" type="number" step="any" placeholder="Example: 3024900">
+
+<label id="nwuIn3Label">Z (meters)</label>
+
+<input id="nwuIn3" type="number" step="any" placeholder="Example: 3368200">
+
+<div class="result">
+
+<div><b id="nwuOut1Label">North:</b> <span id="nwuOut1">-</span></div>
+
+<div><b id="nwuOut2Label">West:</b> <span id="nwuOut2">-</span></div>
+
+<div><b id="nwuOut3Label">Up:</b> <span id="nwuOut3">-</span></div>
+
+</div>
+
+<button class="copyBtn" onclick="copyNwuResult()">Copy Result</button>
+
+</div>
 
 </div>
 
@@ -361,6 +544,297 @@ document.getElementById("value").addEventListener("input",convert);
 document.getElementById("type").addEventListener("change",convert);
 
 document.getElementById("timeInput").addEventListener("input",reverse);
+
+/* ===== Tabs ===== */
+
+document.querySelectorAll(".tab").forEach(function(btn){
+btn.addEventListener("click",function(){
+document.querySelectorAll(".tab").forEach(function(b){b.classList.remove("active");});
+document.querySelectorAll(".tab-panel").forEach(function(p){p.classList.add("hidden");});
+btn.classList.add("active");
+document.getElementById("tab-"+btn.dataset.tab).classList.remove("hidden");
+});
+});
+
+/* ===== Coordinate conversions (WGS84) ===== */
+
+const WGS84_A=6378137.0;
+const WGS84_F=1/298.257223563;
+const WGS84_E2=WGS84_F*(2-WGS84_F);
+const WGS84_B=WGS84_A*(1-WGS84_F);
+const WGS84_EP2=(WGS84_A*WGS84_A-WGS84_B*WGS84_B)/(WGS84_B*WGS84_B);
+
+function llaToEcef(latDeg,lonDeg,h){
+const lat=latDeg*Math.PI/180;
+const lon=lonDeg*Math.PI/180;
+const sinLat=Math.sin(lat);
+const N=WGS84_A/Math.sqrt(1-WGS84_E2*sinLat*sinLat);
+return{
+x:(N+h)*Math.cos(lat)*Math.cos(lon),
+y:(N+h)*Math.cos(lat)*Math.sin(lon),
+z:(N*(1-WGS84_E2)+h)*sinLat
+};
+}
+
+function ecefToLla(x,y,z){
+const p=Math.sqrt(x*x+y*y);
+if(p<1e-10){
+return{lat:z>=0?90:-90,lon:0,h:Math.abs(z)-WGS84_B};
+}
+const th=Math.atan2(z*WGS84_A,p*WGS84_B);
+const lat=Math.atan2(z+WGS84_EP2*WGS84_B*Math.pow(Math.sin(th),3),p-WGS84_E2*WGS84_A*Math.pow(Math.cos(th),3));
+const lon=Math.atan2(y,x);
+const sinLat=Math.sin(lat);
+const N=WGS84_A/Math.sqrt(1-WGS84_E2*sinLat*sinLat);
+return{
+lat:lat*180/Math.PI,
+lon:lon*180/Math.PI,
+h:p/Math.cos(lat)-N
+};
+}
+
+function ecefToNed(refLat,refLon,refAlt,x,y,z){
+const ref=llaToEcef(refLat,refLon,refAlt);
+const dx=x-ref.x,dy=y-ref.y,dz=z-ref.z;
+const lat=refLat*Math.PI/180,lon=refLon*Math.PI/180;
+const sinLat=Math.sin(lat),cosLat=Math.cos(lat);
+const sinLon=Math.sin(lon),cosLon=Math.cos(lon);
+return{
+n:-sinLat*cosLon*dx-sinLat*sinLon*dy+cosLat*dz,
+e:-sinLon*dx+cosLon*dy,
+d:-cosLat*cosLon*dx-cosLat*sinLon*dy-sinLat*dz
+};
+}
+
+function nedToEcef(refLat,refLon,refAlt,n,e,d){
+const ref=llaToEcef(refLat,refLon,refAlt);
+const lat=refLat*Math.PI/180,lon=refLon*Math.PI/180;
+const sinLat=Math.sin(lat),cosLat=Math.cos(lat);
+const sinLon=Math.sin(lon),cosLon=Math.cos(lon);
+return{
+x:ref.x+(-sinLat*cosLon*n-sinLon*e-cosLat*cosLon*d),
+y:ref.y+(-sinLat*sinLon*n+cosLon*e-cosLat*sinLon*d),
+z:ref.z+(cosLat*n-sinLat*d)
+};
+}
+
+function fmtDeg(v){
+return String(parseFloat(v.toFixed(7)));
+}
+
+function fmtM(v){
+return String(parseFloat(v.toFixed(3)));
+}
+
+/* ===== LLA ↔ ECEF ===== */
+
+const LLA_LABELS={
+toEcef:["Latitude (degrees)","Longitude (degrees)","Altitude (meters)","X:","Y:","Z:"],
+toLla:["X (meters)","Y (meters)","Z (meters)","Latitude:","Longitude:","Altitude:"]
+};
+
+function setLlaDirection(){
+const L=LLA_LABELS[document.getElementById("llaDir").value];
+document.getElementById("llaIn1Label").textContent=L[0];
+document.getElementById("llaIn2Label").textContent=L[1];
+document.getElementById("llaIn3Label").textContent=L[2];
+document.getElementById("llaOut1Label").textContent=L[3];
+document.getElementById("llaOut2Label").textContent=L[4];
+document.getElementById("llaOut3Label").textContent=L[5];
+convertLla();
+}
+
+function convertLla(){
+const dir=document.getElementById("llaDir").value;
+const a=parseFloat(document.getElementById("llaIn1").value);
+const b=parseFloat(document.getElementById("llaIn2").value);
+const c=parseFloat(document.getElementById("llaIn3").value);
+const out1=document.getElementById("llaOut1");
+const out2=document.getElementById("llaOut2");
+const out3=document.getElementById("llaOut3");
+if(isNaN(a)||isNaN(b)||isNaN(c)){
+out1.textContent="-";
+out2.textContent="-";
+out3.textContent="-";
+return;
+}
+if(dir==="toEcef"){
+const r=llaToEcef(a,b,c);
+out1.textContent=fmtM(r.x)+" m";
+out2.textContent=fmtM(r.y)+" m";
+out3.textContent=fmtM(r.z)+" m";
+}else{
+const r=ecefToLla(a,b,c);
+out1.textContent=fmtDeg(r.lat)+"°";
+out2.textContent=fmtDeg(r.lon)+"°";
+out3.textContent=fmtM(r.h)+" m";
+}
+}
+
+function copyLlaResult(){
+const o1=document.getElementById("llaOut1").textContent;
+const o2=document.getElementById("llaOut2").textContent;
+const o3=document.getElementById("llaOut3").textContent;
+if(o1==="-"||o2==="-"||o3==="-")return;
+navigator.clipboard.writeText(o1+"  "+o2+"  "+o3);
+}
+
+/* ===== ECEF ↔ NED ===== */
+
+const NED_LABELS={
+toNed:["X (meters)","Y (meters)","Z (meters)","North:","East:","Down:"],
+toEcef:["North (meters)","East (meters)","Down (meters)","X:","Y:","Z:"]
+};
+
+function setNedDirection(){
+const L=NED_LABELS[document.getElementById("nedDir").value];
+document.getElementById("nedIn1Label").textContent=L[0];
+document.getElementById("nedIn2Label").textContent=L[1];
+document.getElementById("nedIn3Label").textContent=L[2];
+document.getElementById("nedOut1Label").textContent=L[3];
+document.getElementById("nedOut2Label").textContent=L[4];
+document.getElementById("nedOut3Label").textContent=L[5];
+convertNed();
+}
+
+function convertNed(){
+const dir=document.getElementById("nedDir").value;
+const refLat=parseFloat(document.getElementById("nedRefLat").value);
+const refLon=parseFloat(document.getElementById("nedRefLon").value);
+const refAlt=parseFloat(document.getElementById("nedRefAlt").value);
+const a=parseFloat(document.getElementById("nedIn1").value);
+const b=parseFloat(document.getElementById("nedIn2").value);
+const c=parseFloat(document.getElementById("nedIn3").value);
+const out1=document.getElementById("nedOut1");
+const out2=document.getElementById("nedOut2");
+const out3=document.getElementById("nedOut3");
+if(isNaN(refLat)||isNaN(refLon)||isNaN(refAlt)||isNaN(a)||isNaN(b)||isNaN(c)){
+out1.textContent="-";
+out2.textContent="-";
+out3.textContent="-";
+return;
+}
+if(dir==="toNed"){
+const r=ecefToNed(refLat,refLon,refAlt,a,b,c);
+out1.textContent=fmtM(r.n)+" m";
+out2.textContent=fmtM(r.e)+" m";
+out3.textContent=fmtM(r.d)+" m";
+}else{
+const r=nedToEcef(refLat,refLon,refAlt,a,b,c);
+out1.textContent=fmtM(r.x)+" m";
+out2.textContent=fmtM(r.y)+" m";
+out3.textContent=fmtM(r.z)+" m";
+}
+}
+
+function copyNedResult(){
+const o1=document.getElementById("nedOut1").textContent;
+const o2=document.getElementById("nedOut2").textContent;
+const o3=document.getElementById("nedOut3").textContent;
+if(o1==="-"||o2==="-"||o3==="-")return;
+navigator.clipboard.writeText(o1+"  "+o2+"  "+o3);
+}
+
+document.getElementById("llaDir").addEventListener("change",setLlaDirection);
+
+document.getElementById("llaIn1").addEventListener("input",convertLla);
+
+document.getElementById("llaIn2").addEventListener("input",convertLla);
+
+document.getElementById("llaIn3").addEventListener("input",convertLla);
+
+document.getElementById("nedDir").addEventListener("change",setNedDirection);
+
+document.getElementById("nedRefLat").addEventListener("input",convertNed);
+
+document.getElementById("nedRefLon").addEventListener("input",convertNed);
+
+document.getElementById("nedRefAlt").addEventListener("input",convertNed);
+
+document.getElementById("nedIn1").addEventListener("input",convertNed);
+
+document.getElementById("nedIn2").addEventListener("input",convertNed);
+
+document.getElementById("nedIn3").addEventListener("input",convertNed);
+
+/* ===== ECEF ↔ NWU ===== */
+
+function ecefToNwu(refLat,refLon,refAlt,x,y,z){
+const ned=ecefToNed(refLat,refLon,refAlt,x,y,z);
+return{n:ned.n,w:-ned.e,u:-ned.d};
+}
+
+function nwuToEcef(refLat,refLon,refAlt,n,w,u){
+return nedToEcef(refLat,refLon,refAlt,n,-w,-u);
+}
+
+const NWU_LABELS={
+toNwu:["X (meters)","Y (meters)","Z (meters)","North:","West:","Up:"],
+toEcef:["North (meters)","West (meters)","Up (meters)","X:","Y:","Z:"]
+};
+
+function setNwuDirection(){
+const L=NWU_LABELS[document.getElementById("nwuDir").value];
+document.getElementById("nwuIn1Label").textContent=L[0];
+document.getElementById("nwuIn2Label").textContent=L[1];
+document.getElementById("nwuIn3Label").textContent=L[2];
+document.getElementById("nwuOut1Label").textContent=L[3];
+document.getElementById("nwuOut2Label").textContent=L[4];
+document.getElementById("nwuOut3Label").textContent=L[5];
+convertNwu();
+}
+
+function convertNwu(){
+const dir=document.getElementById("nwuDir").value;
+const refLat=parseFloat(document.getElementById("nwuRefLat").value);
+const refLon=parseFloat(document.getElementById("nwuRefLon").value);
+const refAlt=parseFloat(document.getElementById("nwuRefAlt").value);
+const a=parseFloat(document.getElementById("nwuIn1").value);
+const b=parseFloat(document.getElementById("nwuIn2").value);
+const c=parseFloat(document.getElementById("nwuIn3").value);
+const out1=document.getElementById("nwuOut1");
+const out2=document.getElementById("nwuOut2");
+const out3=document.getElementById("nwuOut3");
+if(isNaN(refLat)||isNaN(refLon)||isNaN(refAlt)||isNaN(a)||isNaN(b)||isNaN(c)){
+out1.textContent="-";
+out2.textContent="-";
+out3.textContent="-";
+return;
+}
+if(dir==="toNwu"){
+const r=ecefToNwu(refLat,refLon,refAlt,a,b,c);
+out1.textContent=fmtM(r.n)+" m";
+out2.textContent=fmtM(r.w)+" m";
+out3.textContent=fmtM(r.u)+" m";
+}else{
+const r=nwuToEcef(refLat,refLon,refAlt,a,b,c);
+out1.textContent=fmtM(r.x)+" m";
+out2.textContent=fmtM(r.y)+" m";
+out3.textContent=fmtM(r.z)+" m";
+}
+}
+
+function copyNwuResult(){
+const o1=document.getElementById("nwuOut1").textContent;
+const o2=document.getElementById("nwuOut2").textContent;
+const o3=document.getElementById("nwuOut3").textContent;
+if(o1==="-"||o2==="-"||o3==="-")return;
+navigator.clipboard.writeText(o1+"  "+o2+"  "+o3);
+}
+
+document.getElementById("nwuDir").addEventListener("change",setNwuDirection);
+
+document.getElementById("nwuRefLat").addEventListener("input",convertNwu);
+
+document.getElementById("nwuRefLon").addEventListener("input",convertNwu);
+
+document.getElementById("nwuRefAlt").addEventListener("input",convertNwu);
+
+document.getElementById("nwuIn1").addEventListener("input",convertNwu);
+
+document.getElementById("nwuIn2").addEventListener("input",convertNwu);
+
+document.getElementById("nwuIn3").addEventListener("input",convertNwu);
 
 </script>
 
